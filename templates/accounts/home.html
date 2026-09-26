@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <h1>Установка и первичная настройка Django</h1>
+    <p class="muted">
+        Проект демонстрирует базовую авторизацию пользователей: регистрацию,
+        вход в систему, выход и защищенную страницу профиля.
+    </p>
+    {% if user.is_authenticated %}
+        <p>Вы вошли как <strong>{{ user.username }}</strong>.</p>
+        <div class="actions">
+            <a class="button" href="{% url 'profile' %}">Открыть профиль</a>
+        </div>
+    {% else %}
+        <div class="actions">
+            <a class="button" href="{% url 'register' %}">Создать пользователя</a>
+            <a class="button secondary" href="{% url 'login' %}">Войти</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

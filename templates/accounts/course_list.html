@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Список курсов{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <h1>Список курсов</h1>
+    <p class="muted">Данные получены из базы через Django ORM.</p>
+    <ul class="course-list">
+        {% for course in courses %}
+            <li class="course-item">
+                <strong>{{ course.title }}</strong>
+                <span>{{ course.department.name }}</span>
+                {% if course.description %}
+                    <p>{{ course.description }}</p>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li class="course-item">Курсов пока нет.</li>
+        {% endfor %}
+    </ul>
+    <div class="actions">
+        <a class="button secondary" href="{% url 'profile' %}">Профиль</a>
+    </div>
+</section>
+{% endblock %}

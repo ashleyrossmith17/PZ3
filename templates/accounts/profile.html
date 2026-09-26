@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Профиль пользователя{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <h1>Профиль пользователя</h1>
+    <p class="muted">Эта страница доступна только авторизованным пользователям.</p>
+    <div class="profile-grid">
+        <div class="fact">
+            <strong>Имя пользователя</strong>
+            {{ user.username }}
+        </div>
+        <div class="fact">
+            <strong>Email</strong>
+            {{ user.email|default:'не указан' }}
+        </div>
+        <div class="fact">
+            <strong>Статус входа</strong>
+            Авторизован
+        </div>
+    </div>
+</section>
+{% endblock %}

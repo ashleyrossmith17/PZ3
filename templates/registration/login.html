@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <h1>Вход в систему</h1>
+    <p class="muted">Введите имя пользователя и пароль.</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button class="button" type="submit">Войти</button>
+    </form>
+</section>
+{% endblock %}
