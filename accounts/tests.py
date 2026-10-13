@@ -10,7 +10,7 @@ class AuthPagesTests(TestCase):
         response = self.client.get(reverse('home'))
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Установка и первичная настройка Django')
+        self.assertContains(response, 'Учебный портал Django')
 
     def test_profile_requires_login(self):
         response = self.client.get(reverse('profile'))
@@ -83,3 +83,18 @@ class CourseOrmTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Веб-программирование')
         self.assertContains(response, 'Информационные технологии')
+
+    def test_dashboard_uses_database_aggregates_and_filter(self):
+        other_department = Department.objects.create(name='Математика')
+        Course.objects.create(title='Дискретная математика', department=other_department)
+        self.client.login(username='student1', password='Student123!')
+
+        response = self.client.get(reverse('dashboard'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['total_courses'], 2)
+        self.assertContains(response, 'Курсы по факультетам')
+        self.assertIn('Веб-программирование', response.context['chart_data']['load']['labels'])
+
+        filtered = self.client.get(reverse('dashboard'), {'department': self.department.pk})
+        self.assertEqual(filtered.context['total_courses'], 1)
+        self.assertEqual(filtered.context['total_students'], 1)

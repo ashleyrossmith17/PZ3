@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Аналитика · Учебный портал{% endblock %}
+{% block content %}
+<div class="page-header dashboard-header"><div><div class="page-pretitle">ПЗ6</div><h1 class="page-title">Аналитика учебного портала</h1></div><form method="get" class="dashboard-filter"><label class="form-label mb-0" for="department">Факультет</label><select id="department" name="department" class="form-select" onchange="this.form.submit()"><option value="">Все факультеты</option>{% for department in departments %}<option value="{{ department.pk }}" {% if selected_department == department.pk|stringformat:'s' %}selected{% endif %}>{{ department.name }}</option>{% endfor %}</select>{% if selected_department %}<a class="btn btn-icon" href="{% url 'dashboard' %}" aria-label="Сбросить фильтр">×</a>{% endif %}</form></div>
+<div class="row row-cards mb-4">{% include 'accounts/components/stat_card.html' with title='Курсы' value=total_courses %}{% include 'accounts/components/stat_card.html' with title='Факультеты' value=total_departments %}{% include 'accounts/components/stat_card.html' with title='Профили студентов' value=total_students %}{% include 'accounts/components/stat_card.html' with title='Записи на курсы' value=total_enrollments %}</div>
+<div class="row row-cards"><div class="col-lg-4">{% include 'accounts/components/chart_card.html' with title='Курсы по факультетам' chart_id='coursesChart' %}</div><div class="col-lg-4">{% include 'accounts/components/chart_card.html' with title='Студенты по факультетам' chart_id='studentsChart' %}</div><div class="col-lg-4">{% include 'accounts/components/chart_card.html' with title='Популярность курсов' chart_id='loadChart' %}</div></div>{{ chart_data|json_script:'dashboard-data' }}
+{% endblock %}
+{% block scripts %}<script src="{% static 'vendor/chart.umd.min.js' %}"></script><script src="{% static 'accounts/dashboard.js' %}"></script>{% endblock %}

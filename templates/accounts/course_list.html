@@ -1,26 +1,6 @@
 {% extends 'base.html' %}
-
-{% block title %}Список курсов{% endblock %}
-
+{% block title %}Курсы · Учебный портал{% endblock %}
 {% block content %}
-<section class="panel">
-    <h1>Список курсов</h1>
-    <p class="muted">Данные получены из базы через Django ORM.</p>
-    <ul class="course-list">
-        {% for course in courses %}
-            <li class="course-item">
-                <strong>{{ course.title }}</strong>
-                <span>{{ course.department.name }}</span>
-                {% if course.description %}
-                    <p>{{ course.description }}</p>
-                {% endif %}
-            </li>
-        {% empty %}
-            <li class="course-item">Курсов пока нет.</li>
-        {% endfor %}
-    </ul>
-    <div class="actions">
-        <a class="button secondary" href="{% url 'profile' %}">Профиль</a>
-    </div>
-</section>
+<div class="page-header"><div><div class="page-pretitle">Данные базы</div><h1 class="page-title">Список курсов</h1></div></div>
+<div class="row row-cards">{% for course in courses %}<div class="col-md-6 col-lg-4"><div class="card h-100"><div class="card-body"><div class="text-secondary">{{ course.department.name }}</div><h3 class="card-title">{{ course.title }}</h3><p class="text-secondary">{{ course.description|default:'Описание не добавлено.' }}</p></div></div></div>{% empty %}<div class="col-12"><div class="empty"><p class="empty-title">Курсов пока нет</p></div></div>{% endfor %}</div>
 {% endblock %}
