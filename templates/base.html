@@ -17,6 +17,9 @@
         <div class="collapse navbar-collapse" id="navbar-menu"><ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Главная</a></li>
           {% if user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'department_list' %}">Факультеты</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'academic_group_list' %}">Группы</a></li>
+            {% if user.is_staff %}<li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Администрирование</a></li>{% endif %}
             <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Профиль</a></li><li class="nav-item"><a class="nav-link" href="{% url 'course_list' %}">Курсы</a></li><li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Аналитика</a></li>
             <li class="nav-item"><form action="{% url 'logout' %}" method="post">{% csrf_token %}<button class="nav-link btn btn-link" type="submit">Выйти</button></form></li>
           {% else %}
@@ -27,6 +30,8 @@
     </header>
     <main class="page-wrapper"><div class="container-xl py-4">{% block content %}{% endblock %}</div></main>
   </div>
-  <script src="{% static 'vendor/tabler.min.js' %}"></script>{% block scripts %}{% endblock %}
+  <script src="{% static 'vendor/tabler.min.js' %}"></script>
+  <script src="{% static 'vendor/lucide.min.js' %}"></script><script>lucide.createIcons();</script>
+  {% block scripts %}{% endblock %}
 </body>
 </html>

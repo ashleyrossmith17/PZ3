@@ -3,4 +3,10 @@
 .dashboard-filter { display: flex; align-items: center; gap: .5rem; }
 .dashboard-filter select { min-width: 220px; }
 .chart-body { height: 290px; position: relative; }
+.auth-form { max-width: 480px; margin: 20px auto; }
+.profile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+.fact { padding: 16px 0; border-top: 1px solid #dce1e5; }
+.fact strong { display: block; margin-bottom: 8px; font-weight: 500; color: #62717b; }
+.btn svg { width: 16px; height: 16px; }
+.errorlist { color: #c03942; margin: 8px 0; }
 @media (max-width: 767px) { .dashboard-header { align-items: stretch; flex-direction: column; } .dashboard-filter select { flex: 1; min-width: 0; } }

@@ -1,0 +1,3 @@
+{% extends 'base.html' %}
+{% block title %}Доступ запрещён{% endblock %}
+{% block content %}<h1 class="page-title">403 — Доступ запрещён</h1><p>У вашей учётной записи нет права изменять учебные данные.</p><a href="{% url 'profile' %}">Вернуться в профиль</a>{% endblock %}

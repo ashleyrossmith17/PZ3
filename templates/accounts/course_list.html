@@ -2,5 +2,8 @@
 {% block title %}Курсы · Учебный портал{% endblock %}
 {% block content %}
 <div class="page-header"><div><div class="page-pretitle">Данные базы</div><h1 class="page-title">Список курсов</h1></div></div>
-<div class="row row-cards">{% for course in courses %}<div class="col-md-6 col-lg-4"><div class="card h-100"><div class="card-body"><div class="text-secondary">{{ course.department.name }}</div><h3 class="card-title">{{ course.title }}</h3><p class="text-secondary">{{ course.description|default:'Описание не добавлено.' }}</p></div></div></div>{% empty %}<div class="col-12"><div class="empty"><p class="empty-title">Курсов пока нет</p></div></div>{% endfor %}</div>
+{% if is_methodist %}<a class="btn btn-primary mb-3" href="{% url 'course_create' %}">Добавить курс</a>{% endif %}
+<div class="table-responsive"><table class="table table-vcenter"><thead><tr><th>Курс</th><th>Факультет</th><th>Студенты</th>{% if is_methodist %}<th>Действия</th>{% endif %}</tr></thead><tbody>
+{% for course in courses %}<tr><td>{{ course.title }}<div class="text-secondary">{{ course.description }}</div></td><td>{{ course.department.name }}</td><td>{% for student in course.students.all %}{{ student.user.username }}{% if not forloop.last %}, {% endif %}{% empty %}Нет записей{% endfor %}</td>{% if is_methodist %}<td>{% url 'course_update' course.pk as edit_url %}{% url 'course_delete' course.pk as delete_url %}{% include 'accounts/components/object_actions.html' %}</td>{% endif %}</tr>{% empty %}<tr><td colspan="4">Курсов пока нет</td></tr>{% endfor %}
+</tbody></table></div>
 {% endblock %}

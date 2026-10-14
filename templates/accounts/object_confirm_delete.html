@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h1 class="page-title mb-3">{{ title }}</h1><p>{{ object }}</p>
+{% if error %}<div class="alert alert-danger">{{ error }}</div>{% else %}<p>Подтвердите удаление записи.</p>{% endif %}
+<form method="post">{% csrf_token %}<button class="btn btn-danger" type="submit">Удалить</button> <a class="btn" href="{% url list_name %}">Отмена</a></form>
+{% endblock %}

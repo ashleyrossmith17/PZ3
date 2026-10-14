@@ -3,13 +3,14 @@
 {% block title %}Вход{% endblock %}
 
 {% block content %}
-<section class="panel">
-    <h1>Вход в систему</h1>
-    <p class="muted">Введите имя пользователя и пароль.</p>
-    <form method="post">
+<section class="auth-form">
+    <h1 class="page-title mb-4">Вход в систему</h1>
+    <form method="post" class="card card-body">
         {% csrf_token %}
-        {{ form.as_div }}
-        <button class="button" type="submit">Войти</button>
+        {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+        {% for field in form %}<div class="mb-3"><label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{{ field.errors }}</div>{% endfor %}
+        <button class="btn btn-primary" type="submit">Войти</button>
+        <a class="mt-3" href="{% url 'register' %}">Регистрация</a>
     </form>
 </section>
 {% endblock %}

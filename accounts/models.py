@@ -1,5 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
+from django.db.models.deletion import ProtectedError
 
 
 class Department(models.Model):
@@ -14,12 +17,20 @@ class Course(models.Model):
     description = models.TextField(blank=True)
     department = models.ForeignKey(
         Department,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='courses',
     )
 
     def __str__(self):
         return self.title
+
+
+class AcademicGroup(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    department = models.ForeignKey(Department, on_delete=models.PROTECT, related_name='academic_groups')
+
+    def __str__(self):
+        return self.name
 
 
 class StudentProfile(models.Model):
@@ -40,6 +51,16 @@ class StudentProfile(models.Model):
         blank=True,
         related_name='students',
     )
+    academic_group = models.ForeignKey(
+        AcademicGroup, on_delete=models.PROTECT, null=True, blank=True, related_name='students',
+    )
 
     def __str__(self):
         return self.user.username
+
+
+@receiver(pre_delete, sender=Course)
+def protect_enrolled_course(sender, instance, using, **kwargs):
+    students = instance.students.using(using).all()
+    if students.exists():
+        raise ProtectedError('Enrolled courses cannot be deleted.', students)

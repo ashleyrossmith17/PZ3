@@ -3,10 +3,13 @@
 {% block title %}Профиль пользователя{% endblock %}
 
 {% block content %}
-<section class="panel">
-    <h1>Профиль пользователя</h1>
-    <p class="muted">Эта страница доступна только авторизованным пользователям.</p>
-    <div class="profile-grid">
+<section>
+    <h1 class="page-title mb-3">Профиль пользователя</h1>
+    <p>{% for role in roles %}<span class="badge bg-green-lt">{{ role.name }}</span> {% empty %}Роль не назначена{% endfor %}{% if user.is_staff %} <span class="badge bg-blue-lt">staff</span>{% endif %}</p>
+    {% if is_methodist %}<p>Методист</p>{% endif %}
+    <p>Учебная группа: {{ student.academic_group|default:'не назначена' }}. Факультет: {{ student.department|default:'не назначен' }}.</p>
+    <p>Курсы: {% for course in student.courses.all %}{{ course.title }}{% if not forloop.last %}, {% endif %}{% empty %}нет записей{% endfor %}.</p>
+    <div class="profile-grid mt-4">
         <div class="fact">
             <strong>Имя пользователя</strong>
             {{ user.username }}
